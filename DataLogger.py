@@ -39,7 +39,6 @@ for i in images:
     name = "resized"+i
     image.save(path+name)
     sense.load_image(path+name)
-    sleep(4)
     #cv2.imshow(i,image)
     #cv2.waitKey(0) 
 #cv2.destroyAllWindows()        
