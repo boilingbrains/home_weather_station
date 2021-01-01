@@ -32,13 +32,11 @@ images = list(filter(match,images))
 print(images)
 for i in images:
     print(i)
-    #image = cv2.imread(path + i)
-    #image = cv2.resize(image,(8,8))
-    #image = Image.open(path+i)
-    #image = image.resize((8,8),PIL.Image.ANTIALIAS)
-    #name = "resized"+i
-    #image.save(path+name)
-    sense.load_image(path+i)
+    image = Image.open(path+i)
+    image = image.resize((8,8),PIL.Image.ANTIALIAS)
+    name = "resized"+i
+    image.save(path+name)
+    sense.load_image(path+name)
     #cv2.imshow(i,image)
     #cv2.waitKey(0) 
 #cv2.destroyAllWindows()        
