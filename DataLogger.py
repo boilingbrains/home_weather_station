@@ -30,7 +30,7 @@ images = [i for i in os.listdir(path)]
 images = list(filter(match,images))
 print(images)
 boba = Image.open(path+'boba.png')
-boba = boba.resize((8,8),PIL.Image.ANTIALIAS)
+boba = boba.resize((6,6),PIL.Image.ANTIALIAS)
 boba.save(path+'resizedboba.png')
 sense.load_image(path+'resizedboba.png')
 #for i in images:
