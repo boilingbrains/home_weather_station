@@ -29,9 +29,9 @@ print(path)
 images = [i for i in os.listdir(path)]
 images = list(filter(match,images))
 print(images)
-boba = Image.open(path+'humidity.png')
-boba = boba.resize((8,8),PIL.Image.ANTIALIAS)
-boba.save(path+'resizedhumidity.png')
+#boba = Image.open(path+'humidity.png')
+#boba = boba.resize((8,8),PIL.Image.ANTIALIAS)
+#boba.save(path+'resizedhumidity.png')
 sense.load_image(path+'resizedhumidity.png')
 #for i in images:
 #    print(i)
