@@ -37,7 +37,7 @@ for i in images:
     image = Image.open(path+i)
     image = image.resize((8,8),PIL.Image.ANTIALIAS)
     name = "resized"+i
-    image.save(name)
+    image.save(path+name)
     sense.load_image(path+name)
     sleep(4)
     #cv2.imshow(i,image)
