@@ -32,7 +32,7 @@ for i in images:
     print(i)
     image = cv2.imread(path + i)
     image = cv2.resize(image,(8,8))
-    sense.load_image(image)
+    sense.load_image(i)
     sleep(4)
     #cv2.imshow(i,image)
     #cv2.waitKey(0) 
