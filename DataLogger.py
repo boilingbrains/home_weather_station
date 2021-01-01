@@ -4,7 +4,6 @@
 from sense_hat import SenseHat
 import numpy as np
 import time
-import cv2
 import os
 import PIL
 from PIL import Image
@@ -30,16 +29,17 @@ print(path)
 images = [i for i in os.listdir(path)]
 images = list(filter(match,images))
 print(images)
-for i in images:
-    print(i)
-    image = Image.open(path+i)
-    image = image.resize((8,8),PIL.Image.ANTIALIAS)
-    name = "resized"+i
-    image.save(path+name)
-    sense.load_image(path+name)
-    #cv2.imshow(i,image)
-    #cv2.waitKey(0) 
-#cv2.destroyAllWindows()        
+boba = Image.open(path+'boba.png')
+boba = boba.resize((8,8),PIL.Image.ANTIALIAS)
+boba.save(path+'resizedboba.png')
+sense.load_image(path+'resizedboba.png')
+#for i in images:
+#    print(i)
+#    image = Image.open(path+i)
+#    image = image.resize((8,8),PIL.Image.ANTIALIAS)
+#    name = "resized"+i
+#    image.save(path+name)
+#    sense.load_image(path+name)
 sense.clear()
 print("voilà")
 
