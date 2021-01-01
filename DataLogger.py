@@ -23,6 +23,7 @@ hum = sense.get_humidity()
 def match(element):
     return bool(element[len(element)-3:len(element)] == 'png' )
 path = os.getcwd()+'/images/'
+print(path)
 images = [i for i in os.listdir(path)]
 images = list(filter(match,images))
 #print(images)
