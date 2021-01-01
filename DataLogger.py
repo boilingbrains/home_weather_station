@@ -6,6 +6,8 @@ import numpy as np
 import time
 import cv2
 import os
+import PIL
+from PIL import Image
 sense = SenseHat()
 sense.clear()
 
@@ -30,9 +32,13 @@ images = list(filter(match,images))
 print(images)
 for i in images:
     print(i)
-    image = cv2.imread(path + i)
-    image = cv2.resize(image,(8,8))
-    sense.load_image(path+i)
+    #image = cv2.imread(path + i)
+    #image = cv2.resize(image,(8,8))
+    image = Image.open(path+i)
+    image = image.resize((8,8),PIL.Image.ANTIALIAS)
+    name = "resized"+i
+    image.save(name
+    sense.load_image(path+name)
     sleep(4)
     #cv2.imshow(i,image)
     #cv2.waitKey(0) 
