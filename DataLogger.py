@@ -40,7 +40,7 @@ sense.load_image(path+'resizedboba.png')
 #    name = "resized"+i
 #    image.save(path+name)
 #    sense.load_image(path+name)
-sense.clear()
+#sense.clear()
 print("voilà")
 
 ####
