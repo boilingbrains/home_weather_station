@@ -73,16 +73,19 @@ def execute(sense,check_conditions, selection,images):
         time.sleep(1)
         sense.show_message('T: %.1fC' % t, 0.05, Rd)
         check_conditions(t,selection,images2)
+        time.sleep(1)
     elif selection == 'P':
         sense.load_image(images[1])
         time.sleep(1)
         sense.show_message('P: %.1fmbar' % p, 0.05, Gn)
         check_conditions(p,selection,images2)
+        time.sleep(1)
     elif selection == 'H':
         sense.load_image(images[0])
         time.sleep(1)
         sense.show_message('H: %.1f%%' % h, 0.05, Bl)
         check_conditions(h,selection,images2)
+        time.sleep(1)
     else:
         return True
     return False
