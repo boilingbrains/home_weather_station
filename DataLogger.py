@@ -103,8 +103,8 @@ sense.clear()
 #Images
 path = os.getcwd()+'/images/'
 print(path)
-images = [path+'/logo/'+i for i in os.listdir(path+'/logo/')]
-images2 = [path+'/conditions/'/+i for i in os.listdir(path+'/conditons/')]
+images = [path+'logo/'+i for i in os.listdir(path+'logo/')]
+images2 = [path+'conditions/'/+i for i in os.listdir(path+'conditons/')]
 #images = list(filter(match,images))
 
 #Data
