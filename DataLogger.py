@@ -41,22 +41,37 @@ def display(sense, selection):
             (p for row in fg for p in row),
             )
         ])
+
 def execute(sense, selection,images):
     if selection == 'T':
         sense.show(images[2])
         time.sleep(1)
-        sense.show_message('Temperature: %.1fC' % sense.temp, 0.05, Rd)
-    elif selection == 'P'
+        sense.show_message('T: %.1fC' % sense.temp, 0.05, Rd)
+    elif selection == 'P':
         sense.show(images[1])
         time.sleep(1)
-        sense.show_message('Pressure: %.1fmbar' % sense.pressure, 0.05, Gn)
+        sense.show_message('P: %.1fmbar' % sense.pressure, 0.05, Gn)
     elif selection == 'H':
         sense.show(images[0])
         time.sleep(1)
-        sense.show_message('Humidity: %.1f%%' % sense.humidity, 0.05, Bl)
+        sense.show_message('H: %.1f%%' % sense.humidity, 0.05, Bl)
     else:
         return True
     return False
+
+def move(selection, direction):
+    return {
+        ('T', "right"): 'P',
+        ('T', "down"):  'H',
+        ('P', "left"):  'T',
+        ('P', "down"):  'Q',
+        ('Q', "up"):    'P',
+        ('Q', "left"):  'H',
+        ('H', "right"): 'Q',
+        ('H', "up"):    'T',
+        }.get((selection, direction), selection)
+
+
 ################
 #initialization#
 ################
@@ -90,7 +105,7 @@ fg = np.array([
     [Bl, __, Bl, __, Gy, Gy, Gy, __],
     [Bl, Bl, Bl, __, Gy, __, Gy, __],
     [Bl, __, Bl, __, Gy, Gy, Gy, __],
-    [Bl, __, Bl, __, __, __, Gy, Gy],
+    [Bl, __, Bl, __, __, Gy, Gy, __],
     ], dtype=np.uint8)
 
 # Mask is a boolean array of which pixels are transparent
@@ -108,33 +123,20 @@ sense.show_message("Hello")
 #show logo
 show_logo(images)
 sense.clear()
-sense.show_message("Menu")
-display(sense,selection,images)
 
-#
-#def move(selection, direction):
-#    return {
-#        ('T', DIRECTION_RIGHT): 'P',
-#        ('T', DIRECTION_DOWN):  'H',
-#        ('P', DIRECTION_LEFT):  'T',
-#        ('P', DIRECTION_DOWN):  'Q',
-#        ('Q', DIRECTION_UP):    'P',
-#        ('Q', DIRECTION_LEFT):  'H',
-#        ('H', DIRECTION_RIGHT): 'Q',
-#        ('H', DIRECTION_UP):    'T',
-#        }.get((selection, direction), selection)
-#
-#hat = SenseHat()
-#selection = 'T'
-#while True:
-#    display(hat, selection)
-#    event = hat.stick.wait_for_event()
-#    if event.action == ACTION_PRESSED:
-#        if event.direction == DIRECTION_MIDDLE:
-#            if execute(hat, selection):
-#                break
-#        else:
-#            selection = move(selection, event.direction)
-#hat.clear()
-#
+###########
+# Process #
+###########
+sense.show_message("Menu")
+while True:
+    display(sense,selection)
+    event = sense.stick.wait_for_event()
+    if event.action == "pressed":
+        if event.direction == "middle":
+            if execute(sense, selection):
+                break
+        else:
+            selection = move(selection, event.direction)
+sense.clear()
+
 
