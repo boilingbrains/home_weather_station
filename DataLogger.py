@@ -15,12 +15,16 @@ def match(element):
     return bool(element[len(element)-3:len(element)] == 'png' )
 
 def show_logo(images):
-    print(images)
     for i in images:
-        print(i)
         sense.load_image(i)
         time.sleep(1)
-
+def check_conditions(t,h,p):
+    #Check of required conditions 
+    #Temperature: 18.3-26.7 Celsius
+    #Pressure: 979-1027 millibars
+    #Humidity: around 60%
+    if t < 18.3 or t > 26.7:
+        sense.load_image()
 def display(sense, selection):
     # Draw the background (bg) selection box into another numpy array
     left, top, right, bottom = {
@@ -46,15 +50,15 @@ def execute(sense, selection,images):
     if selection == 'T':
         sense.load_image(images[2])
         time.sleep(1)
-        sense.show_message('T: %.1fC' % sense.temp, 0.05, Rd)
+        sense.show_message('T: %.1fC' % sense.get_temperature, 0.05, Rd)
     elif selection == 'P':
         sense.load_image(images[1])
         time.sleep(1)
-        sense.show_message('P: %.1fmbar' % sense.pressure, 0.05, Gn)
+        sense.show_message('P: %.1fmbar' % sense.get_pressure, 0.05, Gn)
     elif selection == 'H':
         sense.load_image(images[0])
         time.sleep(1)
-        sense.show_message('H: %.1f%%' % sense.humidity, 0.05, Bl)
+        sense.show_message('H: %.1f%%' % sense.get_humidity, 0.05, Bl)
     else:
         return True
     return False
@@ -111,23 +115,15 @@ fg = np.array([
 # Mask is a boolean array of which pixels are transparent
 mask = np.all(fg == __, axis=2)
 selection = 'T'
-#Check of required conditions 
-#Temperature: 18.3-26.7 Celsius
-#Pressure: 979-1027 millibars
-#Humidity: around 60%
 
-###################
-# Intro Animation #
-###################
+
+###########
+# Process #
+###########
 try:
     sense.show_message("Hello")
-    #show logo
     show_logo(images)
     sense.clear()
-
-    ###########
-    # Process #
-    ###########
     sense.show_message("Menu")
     while True:
         display(sense,selection)
