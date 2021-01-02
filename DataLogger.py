@@ -163,7 +163,6 @@ fg = np.array([
 # Mask is a boolean array of which pixels are transparent
 mask = np.all(fg == __, axis=2)
 selection = 'T'
-t, p, h, = get_data(sense,logger)
 ###########
 # Process #
 ###########
@@ -174,6 +173,7 @@ try:
     sense.show_message("Menu")
     while True:
         display(sense,selection)
+        t, p, h, = get_data(sense,logger)
         event = sense.stick.wait_for_event()
         if event.action == "pressed":
             if event.direction == "middle":
