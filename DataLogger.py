@@ -15,7 +15,9 @@ import os
 #    return bool(element[len(element)-3:len(element)] == 'png' )
 
 def show_logo(images):
+    print(images)
     for i in images:
+        print(i)
         sense.load_image(i)
         time.sleep(1)
         
@@ -62,21 +64,24 @@ def display(sense, selection):
         ])
 
 def execute(sense,check_conditions, selection,images):
+    t = sense.get_temperature_from_humidity()
+    p = sense.get_temperature()
+    h = sense.get_humidity()
     if selection == 'T':
         sense.load_image(images[2])
         time.sleep(1)
-        sense.show_message('T: %.1fC' % sense.get_temperature_from_humidity(), 0.05, Rd)
-        check_conditions(sense.get_temperature,selection,images)
+        sense.show_message('T: %.1fC' % t, 0.05, Rd)
+        check_conditions(t,selection,images)
     elif selection == 'P':
         sense.load_image(images[1])
         time.sleep(1)
-        sense.show_message('P: %.1fmbar' % sense.get_pressure(), 0.05, Gn)
-        check_conditions(sense.get_temperature,selection,images)
+        sense.show_message('P: %.1fmbar' % p, 0.05, Gn)
+        check_conditions(p,selection,images)
     elif selection == 'H':
         sense.load_image(images[0])
         time.sleep(1)
-        sense.show_message('H: %.1f%%' % sense.get_humidity(), 0.05, Bl)
-        check_conditions(sense.get_temperature,selection,images)
+        sense.show_message('H: %.1f%%' % h, 0.05, Bl)
+        check_conditions(h,selection,images)
     else:
         return True
     return False
