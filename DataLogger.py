@@ -15,7 +15,7 @@ def match(element):
     return bool(element[len(element)-3:len(element)] == 'png' )
 
 def show_logo(images):
-    for i in images:
+    for i in images[2:]:
         sense.load_image(i)
         time.sleep(1)
         
@@ -65,17 +65,17 @@ def execute(sense,check_conditions, selection,images):
     if selection == 'T':
         sense.load_image(images[4])
         time.sleep(1)
-        sense.show_message('T: %.1fC' % sense.get_temperature, 0.05, Rd)
+        sense.show_message('T: %.1fC' % sense.get_temperature(), 0.05, Rd)
         check_conditions(sense.get_temperature,selection,images)
     elif selection == 'P':
         sense.load_image(images[3])
         time.sleep(1)
-        sense.show_message('P: %.1fmbar' % sense.get_pressure, 0.05, Gn)
+        sense.show_message('P: %.1fmbar' % sense.get_pressure(), 0.05, Gn)
         check_conditions(sense.get_temperature,selection,images)
     elif selection == 'H':
         sense.load_image(images[2])
         time.sleep(1)
-        sense.show_message('H: %.1f%%' % sense.get_humidity, 0.05, Bl)
+        sense.show_message('H: %.1f%%' % sense.get_humidity(), 0.05, Bl)
         check_conditions(sense.get_temperature,selection,images)
     else:
         return True
