@@ -64,8 +64,8 @@ def display(sense, selection):
         ])
 
 def execute(sense,check_conditions, selection,images):
-    t = sense.get_temperature_from_humidity()
-    p = sense.get_temperature()
+    t = sense.get_temperature_from_pressure()
+    p = sense.get_pressure()
     h = sense.get_humidity()
     if selection == 'T':
         sense.load_image(images[2])
