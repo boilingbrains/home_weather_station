@@ -44,15 +44,15 @@ def display(sense, selection):
 
 def execute(sense, selection,images):
     if selection == 'T':
-        sense.show(images[2])
+        sense.load_image(images[2])
         time.sleep(1)
         sense.show_message('T: %.1fC' % sense.temp, 0.05, Rd)
     elif selection == 'P':
-        sense.show(images[1])
+        sense.load_image(images[1])
         time.sleep(1)
         sense.show_message('P: %.1fmbar' % sense.pressure, 0.05, Gn)
     elif selection == 'H':
-        sense.show(images[0])
+        sense.load_image(images[0])
         time.sleep(1)
         sense.show_message('H: %.1f%%' % sense.humidity, 0.05, Bl)
     else:
