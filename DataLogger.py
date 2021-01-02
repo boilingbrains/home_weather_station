@@ -11,8 +11,8 @@ import os
 ###########
 #Functions#
 ###########
-def match(element):
-    return bool(element[len(element)-3:len(element)] == 'png' )
+#def match(element):
+#    return bool(element[len(element)-3:len(element)] == 'png' )
 
 def show_logo(images):
     for i in images[2:]:
@@ -26,19 +26,19 @@ def check_conditions(param,selection,images):
     #Humidity: around 60%
     if selection == 'T':
         if param < 18.3 or param > 26.7:
-            sense.load_image(images[0])
+            sense.load_image(images2[0])
         else:
-            sense.load_image(images[1])
+            sense.load_image(images2[1])
     elif selection == 'P':
         if param < 979 or param > 1027:
-            sense.load_image(images[0])
+            sense.load_image(images2[0])
         else:
-            sense.load_image(images[1])
+            sense.load_image(images2[1])
     elif selection == 'H':
         if param < 60:
-            sense.load_image(images[0])
+            sense.load_image(images2[0])
         else:
-            sense.load_image(images[1])
+            sense.load_image(images2[1])
     
 def display(sense, selection):
     # Draw the background (bg) selection box into another numpy array
@@ -63,17 +63,17 @@ def display(sense, selection):
 
 def execute(sense,check_conditions, selection,images):
     if selection == 'T':
-        sense.load_image(images[4])
+        sense.load_image(images[2])
         time.sleep(1)
         sense.show_message('T: %.1fC' % sense.get_temperature(), 0.05, Rd)
         check_conditions(sense.get_temperature,selection,images)
     elif selection == 'P':
-        sense.load_image(images[3])
+        sense.load_image(images[1])
         time.sleep(1)
         sense.show_message('P: %.1fmbar' % sense.get_pressure(), 0.05, Gn)
         check_conditions(sense.get_temperature,selection,images)
     elif selection == 'H':
-        sense.load_image(images[2])
+        sense.load_image(images[0])
         time.sleep(1)
         sense.show_message('H: %.1f%%' % sense.get_humidity(), 0.05, Bl)
         check_conditions(sense.get_temperature,selection,images)
@@ -103,8 +103,9 @@ sense.clear()
 #Images
 path = os.getcwd()+'/images/'
 print(path)
-images = [path+i for i in os.listdir(path)]
-images = list(filter(match,images))
+images = [path+'/logo/'+i for i in os.listdir(path+'/logo/')]
+images2 = [path+'/conditions/'/+i for i in os.listdir(path+'/conditons/')]
+#images = list(filter(match,images))
 
 #Data
 pressure = sense.get_pressure()
@@ -153,8 +154,7 @@ try:
             else:
                 selection = move(selection, event.direction)
     sense.clear()
-except Exception:
-    print("Something went wrong")
-    print(Exception)
+except:
+    #print("Something went wrong")
     sense.clear()
 
