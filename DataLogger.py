@@ -31,7 +31,6 @@ for i in images:
     print(i)
     sense.load_image(path+i)
     time.sleep(4)
-sense.clear()
 
 ####
 # Intro Animation
@@ -48,7 +47,7 @@ sense.clear()
 #
 #
 ##Plot
-é#
+
 
 
 #
