@@ -26,6 +26,7 @@ def check_conditions(param,selection,images2):
     #Temperature: 18.3-26.7 Celsius
     #Pressure: 979-1027 millibars
     #Humidity: around 60%
+    print('ici')
     if selection == 'T':
         if param < 18.3 or param > 26.7:
             sense.load_image(images2[0])
