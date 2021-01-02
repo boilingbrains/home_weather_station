@@ -62,14 +62,20 @@ def display(sense, selection):
         ])
 
 def execute(sense,check_conditions, selection,images):
-    t = sense.get_temperature_from_pressure()
+    t1 = sense.get_temperature_from_humidity()
+    t2 = sense.get_temperature_from_pressure()
+    t_cpu = get_cpu_temp()
+    # calculates the real temperature compesating CPU heating
+    t = (t1+t2)/2
+    t_corr = t - ((t_cpu-t)/1.5)
+    t_corr = get_smooth(t_corr)
     p = sense.get_pressure()
     h = sense.get_humidity()
     if selection == 'T':
         sense.load_image(images[2])
         time.sleep(1)
-        sense.show_message('T: %.1fC' % t, 0.05, Rd)
-        check_conditions(t,selection,images2)
+        sense.show_message('T: %.1fC' % t_corr, 0.05, Rd)
+        check_conditions(t_corr,selection,images2)
         time.sleep(1)
     elif selection == 'P':
         sense.load_image(images[1])
@@ -99,6 +105,21 @@ def move(selection, direction):
         ('H', "up"):    'T',
         }.get((selection, direction), selection)
 
+## get CPU temperature
+def get_cpu_temp():
+  res = os.popen("vcgencmd measure_temp").readline()
+  t = float(res.replace("temp=","").replace("'C\n",""))
+  return(t)
+
+## use moving average to smooth readings
+def get_smooth(x):
+  if not hasattr(get_smooth, "t"):
+    get_smooth.t = [x,x,x]
+  get_smooth.t[2] = get_smooth.t[1]
+  get_smooth.t[1] = get_smooth.t[0]
+  get_smooth.t[0] = x
+  xs = (get_smooth.t[0]+get_smooth.t[1]+get_smooth.t[2])/3
+  return(xs)
 
 ################
 #initialization#
@@ -164,33 +185,3 @@ except:
     #print("Something went wrong")
     sense.clear()
 
-## get CPU temperature
-#def get_cpu_temp():
-#  res = os.popen("vcgencmd measure_temp").readline()
-#  t = float(res.replace("temp=","").replace("'C\n",""))
-#  return(t)
-#
-## use moving average to smooth readings
-#def get_smooth(x):
-#  if not hasattr(get_smooth, "t"):
-#    get_smooth.t = [x,x,x]
-#  get_smooth.t[2] = get_smooth.t[1]
-#  get_smooth.t[1] = get_smooth.t[0]
-#  get_smooth.t[0] = x
-#  xs = (get_smooth.t[0]+get_smooth.t[1]+get_smooth.t[2])/3
-#  return(xs)
-#
-#
-#sense = SenseHat()
-#
-#while True:
-#  t1 = sense.get_temperature_from_humidity()
-#  t2 = sense.get_temperature_from_pressure()
-#  t_cpu = get_cpu_temp()
-#  h = sense.get_humidity()
-#  p = sense.get_pressure()
-#
-#  # calculates the real temperature compesating CPU heating
-#  t = (t1+t2)/2
-#  t_corr = t - ((t_cpu-t)/1.5)
-#  t_corr = get_smooth(t_corr)
