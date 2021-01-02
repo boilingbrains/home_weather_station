@@ -19,7 +19,7 @@ def show_logo(images):
     for i in images:
         print(i)
         sense.load_image(path+i)
-        time.sleep(5)
+        time.sleep(1)
 
 def display(sense, selection):
     # Draw the background (bg) selection box into another numpy array
@@ -133,7 +133,7 @@ while True:
     event = sense.stick.wait_for_event()
     if event.action == "pressed":
         if event.direction == "middle":
-            if execute(sense, selection):
+            if execute(sense, selection,images):
                 break
         else:
             selection = move(selection, event.direction)
