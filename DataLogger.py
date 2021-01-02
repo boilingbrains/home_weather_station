@@ -21,7 +21,7 @@ def show_logo(images):
         sense.load_image(i)
         time.sleep(1)
         
-def check_conditions(param,selection,images):
+def check_conditions(param,selection,images2):
     #Check of required conditions 
     #Temperature: 18.3-26.7 Celsius
     #Pressure: 979-1027 millibars
@@ -71,17 +71,17 @@ def execute(sense,check_conditions, selection,images):
         sense.load_image(images[2])
         time.sleep(1)
         sense.show_message('T: %.1fC' % t, 0.05, Rd)
-        check_conditions(t,selection,images)
+        check_conditions(t,selection,images2)
     elif selection == 'P':
         sense.load_image(images[1])
         time.sleep(1)
         sense.show_message('P: %.1fmbar' % p, 0.05, Gn)
-        check_conditions(p,selection,images)
+        check_conditions(p,selection,images2)
     elif selection == 'H':
         sense.load_image(images[0])
         time.sleep(1)
         sense.show_message('H: %.1f%%' % h, 0.05, Bl)
-        check_conditions(h,selection,images)
+        check_conditions(h,selection,images2)
     else:
         return True
     return False
