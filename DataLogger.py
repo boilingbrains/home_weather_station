@@ -5,8 +5,6 @@ from sense_hat import SenseHat
 import numpy as np
 import time
 import os
-#import PIL
-#from PIL import Image
 sense = SenseHat()
 sense.clear()
 
@@ -31,13 +29,9 @@ images = list(filter(match,images))
 print(images)
 for i in images:
     print(i)
-    #image = Image.open(path+i)
-    #image = image.resize((8,8),PIL.Image.ANTIALIAS)
-    #name = "resized"+i
-    #image.save(path+name)
     sense.load_image(path+i)
+    time.sleep(4)
 sense.clear()
-print("voilà")
 
 ####
 # Intro Animation
@@ -54,7 +48,7 @@ print("voilà")
 #
 #
 ##Plot
-#
+é#
 
 
 #
@@ -87,7 +81,7 @@ print("voilà")
 #    hat.set_pixels([
 #        bg_pix if mask_pix else fg_pix
 #        for (bg_pix, mask_pix, fg_pix) in zip(
-#            (p for row in bg for p in row),
+#                                                                                                                                                                                                                                                                                                                                                                                                                                                                          (p for row in bg for p in row),
 #            (p for row in mask for p in row),
 #            (p for row in fg for p in row),
 #            )
