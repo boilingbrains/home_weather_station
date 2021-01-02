@@ -138,7 +138,7 @@ try:
                     break
             else:
                 selection = move(selection, event.direction)
-    sense.clear(
+    sense.clear()
 except:
     print("Something went wrong")
     sense.clear()
