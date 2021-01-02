@@ -111,11 +111,11 @@ def get_data(sense,logger):
     t = (t1+t2)/2
     t_corr = t - ((t_cpu-t)/1.5)
     t_corr = get_smooth(t_corr)
-    logger.log("Temperature : %.1fC'" % t_corr)
+    logger.log("Temperature C", t_corr)
     p = sense.get_pressure()
-    logger.log("Pressure : %.1fmbar' " % p)
+    logger.log("Pressure mbar", p)
     h = sense.get_humidity()
-    logger.log("Humidity : %.1f%%'" % h)
+    logger.log("Humidity %", h)
     return t_corr, p, h
 ## use moving average to smooth readings
 def get_smooth(x):
