@@ -153,8 +153,8 @@ try:
             else:
                 selection = move(selection, event.direction)
     sense.clear()
-except e:
+except Exception:
     print("Something went wrong")
-    print(e)
+    print(Exception)
     sense.clear()
 
