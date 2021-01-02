@@ -18,7 +18,7 @@ def show_logo(images):
     print(images)
     for i in images:
         print(i)
-        sense.load_image(path+i)
+        sense.load_image(i)
         time.sleep(1)
 
 def display(sense, selection):
@@ -139,7 +139,8 @@ try:
             else:
                 selection = move(selection, event.direction)
     sense.clear()
-except:
+except e:
     print("Something went wrong")
+    print(e)
     sense.clear()
 
