@@ -5,8 +5,8 @@ from sense_hat import SenseHat
 import numpy as np
 import time
 import os
-import PIL
-from PIL import Image
+#import PIL
+#from PIL import Image
 sense = SenseHat()
 sense.clear()
 
@@ -29,18 +29,14 @@ print(path)
 images = [i for i in os.listdir(path)]
 images = list(filter(match,images))
 print(images)
-#boba = Image.open(path+'humidity.png')
-#boba = boba.resize((8,8),PIL.Image.ANTIALIAS)
-#boba.save(path+'resizedhumidity.png')
-sense.load_image(path+'resizedhumidity.png')
-#for i in images:
-#    print(i)
-#    image = Image.open(path+i)
-#    image = image.resize((8,8),PIL.Image.ANTIALIAS)
-#    name = "resized"+i
-#    image.save(path+name)
-#    sense.load_image(path+name)
-#sense.clear()
+for i in images:
+    print(i)
+    #image = Image.open(path+i)
+    #image = image.resize((8,8),PIL.Image.ANTIALIAS)
+    #name = "resized"+i
+    #image.save(path+name)
+    sense.load_image(path+i)
+sense.clear()
 print("voilà")
 
 ####
