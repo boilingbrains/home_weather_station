@@ -18,13 +18,28 @@ def show_logo(images):
     for i in images:
         sense.load_image(i)
         time.sleep(1)
-def check_conditions(t,h,p):
+        
+def check_conditions(param,selection,images):
     #Check of required conditions 
     #Temperature: 18.3-26.7 Celsius
     #Pressure: 979-1027 millibars
     #Humidity: around 60%
-    if t < 18.3 or t > 26.7:
-        sense.load_image()
+    if selection == 'T':
+        if param < 18.3 or param > 26.7:
+            sense.load_image(images[0])
+        else:
+            sense.load_image(images[1])
+    elif selection == 'P':
+        if param < 979 or param > 1027:
+            sense.load_image(images[0])
+        else:
+            sense.load_image(images[1])
+    elif selection == 'H':
+        if param < 60:
+            sense.load_image(images[0])
+        else:
+            sense.load_image(images[1])
+    
 def display(sense, selection):
     # Draw the background (bg) selection box into another numpy array
     left, top, right, bottom = {
@@ -46,19 +61,22 @@ def display(sense, selection):
             )
         ])
 
-def execute(sense, selection,images):
+def execute(sense,check_conditions, selection,images):
     if selection == 'T':
-        sense.load_image(images[2])
+        sense.load_image(images[4])
         time.sleep(1)
         sense.show_message('T: %.1fC' % sense.get_temperature, 0.05, Rd)
+        check_conditions(sense.get_temperature,selection,images)
     elif selection == 'P':
-        sense.load_image(images[1])
+        sense.load_image(images[3])
         time.sleep(1)
         sense.show_message('P: %.1fmbar' % sense.get_pressure, 0.05, Gn)
+        check_conditions(sense.get_temperature,selection,images)
     elif selection == 'H':
-        sense.load_image(images[0])
+        sense.load_image(images[2])
         time.sleep(1)
         sense.show_message('H: %.1f%%' % sense.get_humidity, 0.05, Bl)
+        check_conditions(sense.get_temperature,selection,images)
     else:
         return True
     return False
@@ -130,7 +148,7 @@ try:
         event = sense.stick.wait_for_event()
         if event.action == "pressed":
             if event.direction == "middle":
-                if execute(sense, selection,images):
+                if execute(sense,check_conditions, selection,images):
                     break
             else:
                 selection = move(selection, event.direction)
