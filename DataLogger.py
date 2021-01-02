@@ -29,19 +29,19 @@ def check_conditions(param,selection,images2):
     print('ici')
     if selection == 'T':
         if param < 18.3 or param > 26.7:
-            sense.load_image(images2[0])
-        else:
             sense.load_image(images2[1])
+        else:
+            sense.load_image(images2[0])
     elif selection == 'P':
         if param < 979 or param > 1027:
-            sense.load_image(images2[0])
-        else:
             sense.load_image(images2[1])
+        else:
+            sense.load_image(images2[0])
     elif selection == 'H':
         if param < 60:
-            sense.load_image(images2[0])
-        else:
             sense.load_image(images2[1])
+        else:
+            sense.load_image(images2[0])
     
 def display(sense, selection):
     # Draw the background (bg) selection box into another numpy array
