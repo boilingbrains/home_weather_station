@@ -3,10 +3,13 @@
 #########
 #Modules#
 #########
-from sense_hat import SenseHat
-import numpy as np
-import time
+
 import os
+import sys
+import time
+import numpy as np
+from sense_hat import SenseHat
+from ISStreamer.Streamer import Streamer
 
 ###########
 #Functions#
@@ -61,21 +64,12 @@ def display(sense, selection):
             )
         ])
 
-def execute(sense,check_conditions, selection,images):
-    t1 = sense.get_temperature_from_humidity()
-    t2 = sense.get_temperature_from_pressure()
-    t_cpu = get_cpu_temp()
-    # calculates the real temperature compesating CPU heating
-    t = (t1+t2)/2
-    t_corr = t - ((t_cpu-t)/1.5)
-    t_corr = get_smooth(t_corr)
-    p = sense.get_pressure()
-    h = sense.get_humidity()
+def execute(sense,t,p,h, check_conditions, selection,images):
     if selection == 'T':
         sense.load_image(images[2])
         time.sleep(1)
-        sense.show_message('T: %.1fC' % t_corr, 0.05, Rd)
-        check_conditions(t_corr,selection,images2)
+        sense.show_message('T: %.1fC' % t, 0.05, Rd)
+        check_conditions(t,selection,images2)
         time.sleep(1)
     elif selection == 'P':
         sense.load_image(images[1])
@@ -104,13 +98,25 @@ def move(selection, direction):
         ('H', "right"): 'Q',
         ('H', "up"):    'T',
         }.get((selection, direction), selection)
-
-## get CPU temperature
+    
 def get_cpu_temp():
   res = os.popen("vcgencmd measure_temp").readline()
   t = float(res.replace("temp=","").replace("'C\n",""))
   return(t)
-
+def get_data(sense,logger):
+    t1 = sense.get_temperature_from_humidity()
+    t2 = sense.get_temperature_from_pressure()
+    t_cpu = get_cpu_temp()
+    # calculates the real temperature compesating CPU heating
+    t = (t1+t2)/2
+    t_corr = t - ((t_cpu-t)/1.5)
+    t_corr = get_smooth(t_corr)
+    logger.log("Temperature : %.1fC'" % t_corr)
+    p = sense.get_pressure()
+    logger.log("Pressure : %.1fmbar' " % p)
+    h = sense.get_humidity()
+    logger.log("Humidity : %.1f%%'" % h)
+    return t_corr, p, h
 ## use moving average to smooth readings
 def get_smooth(x):
   if not hasattr(get_smooth, "t"):
@@ -125,6 +131,7 @@ def get_smooth(x):
 #initialization#
 ################
 sense = SenseHat()
+logger = Streamer(bucket_name="Sense Hat Sensor Data", access_key="ist_-QPaymsf-J1OLpzTH4MGCkT3X6Si_sgO")
 sense.clear()
 
 #Images
@@ -133,11 +140,6 @@ print(path)
 images = [path+'logo/'+i for i in os.listdir(path+'logo/')]
 images2 = [path+'conditions/'+i for i in os.listdir(path+'conditions/')]
 #images = list(filter(match,images))
-
-#Data
-pressure = sense.get_pressure()
-temp = sense.get_temperature_from_humidity()
-hum = sense.get_humidity()
 
 #Menu
 Rd = (255, 0, 0)
@@ -161,8 +163,7 @@ fg = np.array([
 # Mask is a boolean array of which pixels are transparent
 mask = np.all(fg == __, axis=2)
 selection = 'T'
-
-
+t, p, h, = get_data(sense,logger)
 ###########
 # Process #
 ###########
@@ -176,7 +177,7 @@ try:
         event = sense.stick.wait_for_event()
         if event.action == "pressed":
             if event.direction == "middle":
-                if execute(sense,check_conditions, selection,images):
+                if execute(sense,t,p,h,check_conditions, selection,images):
                     break
             else:
                 selection = move(selection, event.direction)
