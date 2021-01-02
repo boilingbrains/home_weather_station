@@ -81,7 +81,7 @@ sense.clear()
 #Images
 path = os.getcwd()+'/images/'
 print(path)
-images = [i for i in os.listdir(path)]
+images = [path+i for i in os.listdir(path)]
 images = list(filter(match,images))
 
 #Data
@@ -119,24 +119,27 @@ selection = 'T'
 ###################
 # Intro Animation #
 ###################
-sense.show_message("Hello")
-#show logo
-show_logo(images)
-sense.clear()
+try:
+    sense.show_message("Hello")
+    #show logo
+    show_logo(images)
+    sense.clear()
 
-###########
-# Process #
-###########
-sense.show_message("Menu")
-while True:
-    display(sense,selection)
-    event = sense.stick.wait_for_event()
-    if event.action == "pressed":
-        if event.direction == "middle":
-            if execute(sense, selection,images):
-                break
-        else:
-            selection = move(selection, event.direction)
-sense.clear()
-
+    ###########
+    # Process #
+    ###########
+    sense.show_message("Menu")
+    while True:
+        display(sense,selection)
+        event = sense.stick.wait_for_event()
+        if event.action == "pressed":
+            if event.direction == "middle":
+                if execute(sense, selection,images):
+                    break
+            else:
+                selection = move(selection, event.direction)
+    sense.clear(
+except:
+    print("Something went wrong")
+    sense.clear()
 
