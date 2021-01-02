@@ -15,7 +15,7 @@ import os
 #    return bool(element[len(element)-3:len(element)] == 'png' )
 
 def show_logo(images):
-    for i in images[2:]:
+    for i in images:
         sense.load_image(i)
         time.sleep(1)
         
@@ -65,7 +65,7 @@ def execute(sense,check_conditions, selection,images):
     if selection == 'T':
         sense.load_image(images[2])
         time.sleep(1)
-        sense.show_message('T: %.1fC' % sense.get_temperature(), 0.05, Rd)
+        sense.show_message('T: %.1fC' % sense.get_temperature_from_humidity(), 0.05, Rd)
         check_conditions(sense.get_temperature,selection,images)
     elif selection == 'P':
         sense.load_image(images[1])
@@ -109,7 +109,7 @@ images2 = [path+'conditions/'+i for i in os.listdir(path+'conditions/')]
 
 #Data
 pressure = sense.get_pressure()
-temp = sense.get_temperature()
+temp = sense.get_temperature_from_humidity()
 hum = sense.get_humidity()
 
 #Menu
