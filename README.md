@@ -2,14 +2,15 @@
 
 ## Introduction: 
 Ce projet conciste à réaliser une station météo grace aux capteurs inclut dans l'extension senseHAT pour la carte raspberry pi. J'ai utilisé les composants suivant:
-* senseµHAT
-* raspberry PI 4
+
+* senseHAT
+* raspberry Pi 4
 
 ![](cablage_alarme.JPG#center)
 
 ## Structure du projet
 ```
-📦project
+📦Project
 │   📜DataLogger.py
 │   📜README.md 
 └───📂images
@@ -25,7 +26,7 @@ Ce projet conciste à réaliser une station météo grace aux capteurs inclut da
 
 <span style="display:block;text-align:center">
 
-[![](original/miniature.jpg#center)](https://www.youtube.com/watch?v=pAsckS4BN9A)
+[![](miniature.jpg#center)](https://www.youtube.com/watch?v=pAsckS4BN9A)
 
 </span>
 
